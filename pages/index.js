@@ -19,8 +19,7 @@ export default function Home() {
       }
 
       const geocodeRes = await axios.get(
-        `https://api.openweathermap.org/geo/1.0/direct?q=${searchQuery}&limit=1&appid=ba1cde8e30464afba59a25545d2ef3d6
-`
+        `https://api.openweathermap.org/geo/1.0/direct?q=${searchQuery}&limit=1&appid=ba1cde8e30464afba59a25545d2ef3d6`
       );
 
       if (!geocodeRes.data || geocodeRes.data.length === 0) {
@@ -54,7 +53,7 @@ export default function Home() {
     <div className="bg-gray-100 min-h-screen flex flex-col">
       {/* Header */}
       <header className="bg-blue-600 text-white p-4 shadow-md">
-        <h1 className="text-3xl font-bold text-center">Application météo en temps réel</h1>
+        <h1 className="text-3xl font-bold text-center">Real-time weather application</h1>
       </header>
 
       {/* Content */}
@@ -84,7 +83,7 @@ export default function Home() {
           {weatherData ? (
             <WeatherDetails weatherData={weatherData} />
           ) : (
-            <p className="text-gray-600 text-center">Recherchez une ville ou cliquez sur la carte pour obtenir des données météorologiques.</p>
+            <p className="text-gray-600 text-center">Search for a city or click on the map for weather data.</p>
           )}
           {/* Search History */}
           {searchHistory.length > 0 && (
@@ -93,6 +92,14 @@ export default function Home() {
           {error && <p className="text-red-500 mt-4">{error}</p>}
         </div>
       </div>
+
+      {/* Footer */}
+      <footer className="bg-gray-800 text-white p-4 text-center">
+        <p>
+          🌟 Made with ❤️ by <a href="https://github.com/oussama-zbair" className="underline text-blue-400">Oussama Zbair</a> 🌟
+        </p>
+        <p>© 2025 All Rights Reserved</p>
+      </footer>
     </div>
   );
 }

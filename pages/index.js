@@ -52,8 +52,16 @@ export default function Home() {
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col">
       {/* Header */}
-      <header className="bg-blue-600 text-white p-4 shadow-md">
+      <header className="bg-blue-600 text-white p-4 shadow-md flex justify-between items-center">
         <h1 className="text-3xl font-bold text-center">Real-time weather application</h1>
+        <a
+          href="https://github.com/oussama-zbair/weather-app"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-white bg-blue-500 px-4 py-2 rounded-md hover:bg-blue-600 transition"
+        >
+          📄 Documentation
+        </a>
       </header>
 
       {/* Content */}

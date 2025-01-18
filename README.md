@@ -2,7 +2,7 @@
 # 🌦️ Weather App  
 **A real-time weather application using Next.js, OpenWeatherMap API, and Mapbox.**  
 
-![License](https://img.shields.io/badge/license-MIT-green)  ![Next.js](https://img.shields.io/badge/Next.js-13.4-blue)  ![Node.js](https://img.shields.io/badge/Node.js-18.x-brightgreen)  ![Version](https://img.shields.io/badge/version-1.0.0-yellow)  ![Build Status](https://img.shields.io/badge/build-passing-brightgreen)  ![Deployed on Vercel](https://img.shields.io/badge/Deployment-Vercel-blue)  
+![License](https://img.shields.io/badge/license-MIT-green)  ![Next.js](https://img.shields.io/badge/Next.js-13.4-blue)  ![Node.js](https://img.shields.io/badge/Node.js-22.x-brightgreen)  ![Version](https://img.shields.io/badge/version-1.0.0-yellow)  ![Build Status](https://img.shields.io/badge/build-passing-brightgreen)  ![Deployed on Vercel](https://img.shields.io/badge/Deployment-Vercel-blue)  
 
 ---
 

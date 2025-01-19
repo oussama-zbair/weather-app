@@ -1,4 +1,3 @@
-
 # 🌦️ Weather App  
 **A real-time weather application using Next.js, OpenWeatherMap API, and Mapbox.**  
 
@@ -38,30 +37,32 @@ Check out the live version: **[Weather App on Vercel](https://your-weather-app.v
 ## 📝 Setup  
 Follow these steps to run the app locally:  
 
-1. **Clone the repository**:  
+1. **Fork the repository**:  
+
+2. **Clone the repository**:  
    ```bash
    git clone https://github.com/your-username/weather-app.git
    cd weather-app
    ```
 
-2. **Install dependencies**:  
+3. **Install dependencies**:  
    ```bash
    npm install
    ```
 
-3. **Add your API keys**:  
+4. **Add your API keys**:  
    - Create a `.env.local` file in the root directory:  
      ```env
      NEXT_PUBLIC_WEATHER_API_KEY=your_openweathermap_api_key
      NEXT_PUBLIC_MAPBOX_API_KEY=your_mapbox_api_key
      ```
 
-4. **Run the development server**:  
+5. **Run the development server**:  
    ```bash
    npm run dev
    ```
 
-5. **Visit the app**:  
+6. **Visit the app**:  
    Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 
@@ -73,14 +74,6 @@ Follow these steps to run the app locally:
   - Smooth interactions on the map.  
 
 **Automated Testing**: Coming Soon 🚧  
-
----
-
-## 🛠️ Future Enhancements(Coming Soon). 
-- 🌍 **Multi-Language Support**: Expand to support various languages.  
-- 📱 **Mobile Optimization**: Responsive design for all screen sizes.  
-- 🌟 **Weather Alerts**: Real-time notifications for extreme weather conditions.  
-- 🎥 **Tutorials**: Video guides for using the app effectively.  
 
 ---
 

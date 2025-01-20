@@ -1,39 +1,40 @@
 import axios from 'axios';
 
-const API_KEY = 'ba1cde8e30464afba59a25545d2ef3d6';
-const BASE_URL = 'https://api.openweathermap.org/data/2.5/weather';
-const FORECAST_URL = 'https://api.openweathermap.org/data/2.5/forecast';
+const OPENWEATHER_URL = 'https://api.openweathermap.org/data/2.5';
+const TOMORROW_URL = 'https://api.tomorrow.io/v4/weather';
 
-/**
- * Fetch current weather data for a specific latitude and longitude.
- * @param {number} lat - Latitude of the location.
- * @param {number} lon - Longitude of the location.
- * @returns {Promise<Object>} Current weather data.
- */
-export const fetchWeatherData = async (lat, lon) => {
+export const fetchOpenWeatherData = async (lat, lon) => {
   try {
-    const response = await axios.get(`${BASE_URL}?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`);
+    const response = await axios.get(
+      `${OPENWEATHER_URL}/weather?lat=${lat}&lon=${lon}&appid=${process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY}&units=metric`
+    );
     return response.data;
   } catch (error) {
-    console.error('Error fetching weather data:', error);
+    console.error('Error fetching OpenWeatherMap data:', error);
     throw error;
   }
 };
 
-/**
- * Fetch 5-day forecast data (3-hour intervals) for a specific latitude and longitude.
- * @param {number} lat - Latitude of the location.
- * @param {number} lon - Longitude of the location.
- * @returns {Promise<Object>} Forecast data.
- */
-export const fetchForecastData = async (lat, lon) => {
+export const fetchOpenWeatherForecast = async (lat, lon) => {
   try {
     const response = await axios.get(
-      `${FORECAST_URL}?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`
+      `${OPENWEATHER_URL}/forecast?lat=${lat}&lon=${lon}&appid=${process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY}&units=metric`
     );
     return response.data;
   } catch (error) {
-    console.error('Error fetching forecast data:', error);
+    console.error('Error fetching OpenWeatherMap forecast:', error);
+    throw error;
+  }
+};
+
+export const fetchTomorrowWeather = async (lat, lon) => {
+  try {
+    const response = await axios.get(
+      `${TOMORROW_URL}/forecast?location=${lat},${lon}&apikey=${process.env.NEXT_PUBLIC_TOMORROW_API_KEY}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching Tomorrow.io data:', error);
     throw error;
   }
 };

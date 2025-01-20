@@ -26,7 +26,16 @@ Check out the live version: **[Weather App on Vercel](https://weatherworldview.v
 
 ### **Backend**  
 - **Node.js**: Server-side runtime.  
-- **Axios**: API request handling.  
+- **Axios**: API request handling.
+
+### **Security**
+- **HSTS**: HTTP Strict Transport Security (HSTS) informs browsers that the site should only be accessed using HTTPS.
+  
+### **Paas**:
+- **Vercel**: Cloud platform for static frontends and serverless functions.
+
+### **Miscellaneous**:
+- **Webpack**: open-source JavaScript module bundler.
 
 ### **APIs**  
 - **[OpenWeatherMap](https://openweathermap.org/)**: Weather data source.  

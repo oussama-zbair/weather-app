@@ -29,39 +29,39 @@ const WeatherDetails = ({ weatherData }) => {
       <ul className="space-y-4">
         <li className="flex items-center text-gray-700 text-lg">
           <FaTemperatureHigh className="text-red-500 mr-3" />
-          <span>Température : {weatherData.main.temp}°C</span>
+          <span>Temperature : {weatherData.main.temp}°C</span>
         </li>
         <li className="flex items-center text-gray-700 text-lg">
           <FaTemperatureHigh className="text-orange-500 mr-3" />
-          <span>Ressenti : {weatherData.main.feels_like}°C</span>
+          <span>Feel : {weatherData.main.feels_like}°C</span>
         </li>
         <li className="flex items-center text-gray-700 text-lg">
           <WiHumidity className="text-blue-500 mr-3" />
-          <span>Humidité : {weatherData.main.humidity}%</span>
+          <span>Humidity : {weatherData.main.humidity}%</span>
         </li>
         <li className="flex items-center text-gray-700 text-lg">
           <WiCloudy className="text-gray-500 mr-3" />
-          <span>Nuages : {weatherData.clouds.all}%</span>
+          <span>Clouds : {weatherData.clouds.all}%</span>
         </li>
         <li className="flex items-center text-gray-700 text-lg">
           <FaWind className="text-gray-500 mr-3" />
-          <span>Vent : {weatherData.wind.speed} m/s</span>
+          <span>Wind : {weatherData.wind.speed} m/s</span>
         </li>
         <li className="flex items-center text-gray-700 text-lg">
           <MdVisibility className="text-yellow-500 mr-3" />
-          <span>Visibilité : {weatherData.visibility / 1000} km</span>
+          <span>Visibility : {weatherData.visibility / 1000} km</span>
         </li>
         <li className="flex items-center text-gray-700 text-lg">
           <MdSpeed className="text-gray-500 mr-3" />
-          <span>Pression : {weatherData.main.pressure} hPa</span>
+          <span>Pressure : {weatherData.main.pressure} hPa</span>
         </li>
         <li className="flex items-center text-gray-700 text-lg">
           <WiSunrise className="text-orange-500 mr-3" />
-          <span>Lever du soleil : {formatTime(weatherData.sys.sunrise)}</span>
+          <span>Sunrise : {formatTime(weatherData.sys.sunrise)}</span>
         </li>
         <li className="flex items-center text-gray-700 text-lg">
           <WiSunset className="text-red-500 mr-3" />
-          <span>Coucher du soleil : {formatTime(weatherData.sys.sunset)}</span>
+          <span>Sunset: {formatTime(weatherData.sys.sunset)}</span>
         </li>
       </ul>
 

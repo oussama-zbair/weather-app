@@ -2,28 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Placeholder style */
 .placeholder-gray-400::placeholder {
   color: #a0aec0; /* Light gray */
 }
 
-.text-black {
-  color: #000; /* Black text */
+/* Custom animations */
+.animate-pulse {
+  animation: pulse 2s infinite;
 }
 
-.map-container {
-  height: 100%; /* Ensure full height */
-  width: 100%;  /* Ensure full width */
-  position: relative; /* Maintain layout context */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
+/* Utility for hover and shadow effects */
+.hover:shadow-2xl:hover {
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+}
 
-/* Hover effects for weather details card */
-.transition-transform {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.hover:scale-105:hover {
-  transform: scale(1.05);
-}
-.hover:shadow-lg:hover {
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+.hover:-translate-y-1:hover {
+  transform: translateY(-0.25rem);
 }

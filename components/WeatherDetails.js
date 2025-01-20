@@ -21,15 +21,12 @@ const WeatherDetails = ({ weatherData, forecastData }) => {
 
   return (
     <div className="p-6 border rounded-lg shadow-xl bg-gradient-to-br from-cyan-50 to-blue-100 hover:shadow-2xl transition-all duration-300">
-      {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-3xl font-bold text-blue-800">
           {weatherData.name}, {weatherData.sys.country}
         </h2>
         <img src={iconUrl} alt="Weather Icon" className="w-12 h-12 animate-pulse" />
       </div>
-
-      {/* Current Weather Details */}
       <ul className="space-y-4">
         {[
           { label: "Temperature", value: `${weatherData.main.temp}°C`, icon: <FaTemperatureHigh className="text-red-500" /> },
@@ -48,8 +45,6 @@ const WeatherDetails = ({ weatherData, forecastData }) => {
           </li>
         ))}
       </ul>
-
-      {/* Forecast Summary */}
       <div className="mt-8">
         <h3 className="text-xl font-bold text-blue-700 mb-4">5-Day Forecast</h3>
         <ul className="grid grid-cols-2 lg:grid-cols-3 gap-4">

@@ -1,3 +1,4 @@
+
 # 🌦️ Weather App  
 **A real-time weather application using Next.js, OpenWeatherMap API, and Mapbox.**  
 
@@ -10,12 +11,11 @@
 - 🕒 **Hourly and Weekly Forecasts**: Detailed weather trends at your fingertips.  
 - 🗺️ **Interactive Map**: Explore weather markers dynamically on a map.  
 - 📊 **Weather Trends**: Visualize temperature changes with interactive charts (Coming Soon).  
-- 🔔 **Notifications**: Get real-time weather alerts (In Progress).  
 
 ---
 
 ## 🚀 Live Demo  
-Check out the live version: **[Weather App on Vercel](https://weatherworldmap.vercel.app/)**  
+Check out the live version: **[Weather App on Vercel](https://weatherworldview.vercel.app/)**  
 
 ---
 
@@ -29,8 +29,8 @@ Check out the live version: **[Weather App on Vercel](https://weatherworldmap.ve
 - **Axios**: API request handling.  
 
 ### **APIs**  
-- **OpenWeatherMap**: Weather data source.  
-- **Mapbox**: Interactive map provider.  
+- **[OpenWeatherMap](https://openweathermap.org/)**: Weather data source.  
+- **[Mapbox](https://www.mapbox.com/)**: Interactive map provider.  
 
 ---
 
@@ -107,5 +107,3 @@ We welcome contributions! To contribute:
 This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.  
 
 ---
-
-

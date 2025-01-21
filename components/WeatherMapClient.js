@@ -68,9 +68,17 @@ const WeatherMapClient = ({ weatherData, onMapClick }) => {
         )}
       </Map>
       {/* Map Style Toggle */}
-      <div className="absolute top-6 right-6 bg-white rounded-lg shadow-lg p-2 z-50">
+      <div
+        className="absolute z-50 bg-white rounded-lg shadow-lg p-3 flex space-x-2"
+        style={{
+          bottom: window.innerWidth < 768 ? "6px" : "unset", // Bottom for mobile
+          left: window.innerWidth < 768 ? "6px" : "unset",   // Left for mobile
+          top: window.innerWidth >= 768 ? "6px" : "unset",   // Top for desktop
+          right: window.innerWidth >= 768 ? "6px" : "unset", // Right for desktop
+        }}
+      >
         <button
-          className={`p-2 text-sm ${
+          className={`p-2 text-sm rounded-lg ${
             mapStyle === "mapbox://styles/mapbox/streets-v11"
               ? "bg-blue-500 text-white"
               : "bg-gray-200 text-gray-700"
@@ -80,7 +88,7 @@ const WeatherMapClient = ({ weatherData, onMapClick }) => {
           Streets
         </button>
         <button
-          className={`p-2 text-sm ml-2 ${
+          className={`p-2 text-sm rounded-lg ${
             mapStyle === "mapbox://styles/mapbox/satellite-v9"
               ? "bg-blue-500 text-white"
               : "bg-gray-200 text-gray-700"

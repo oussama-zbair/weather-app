@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Cloud, Droplets, Wind, ThermometerSun } from "lucide-react";
+import { Cloud, Droplets, Wind, ThermometerSun, MapPin } from "lucide-react";
 import { Card } from "@/components/ui/card";
 
 interface WeatherCardProps {
@@ -10,9 +10,27 @@ interface WeatherCardProps {
   windSpeed: number;
   description: string;
   icon: string;
+  city: string;
+  country: string;
+  countryCode: string;
 }
 
-export default function WeatherCard({ temperature, humidity, windSpeed, description, icon }: WeatherCardProps) {
+function getCountryFlagEmoji(code: string): string {
+  return code
+    .toUpperCase()
+    .replace(/./g, char => String.fromCodePoint(char.charCodeAt(0) + 127397));
+}
+
+export default function WeatherCard({
+  temperature,
+  humidity,
+  windSpeed,
+  description,
+  icon,
+  city,
+  country,
+  countryCode,
+}: WeatherCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -27,14 +45,21 @@ export default function WeatherCard({ temperature, humidity, windSpeed, descript
               {Math.round(temperature)}°C
             </h2>
             <p className="text-lg text-muted-foreground capitalize mt-1">{description}</p>
+
+            {/* 🏳️ City + Country + Flag */}
+            <div className="flex items-center gap-2 mt-2 text-sm text-gray-600">
+              <MapPin className="w-4 h-4" />
+              <span>{city}, {country} {getCountryFlagEmoji(countryCode)}</span>
+            </div>
           </div>
+          
           <img 
             src={`https://openweathermap.org/img/wn/${icon}@4x.png`}
             alt={description}
             className="w-24 h-24"
           />
         </div>
-        
+
         <div className="grid grid-cols-3 gap-4">
           <div className="flex items-center gap-2 bg-white/5 p-3 rounded-lg">
             <Droplets className="text-blue-500" />

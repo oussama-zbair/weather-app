@@ -41,7 +41,6 @@ export default function WeatherMap({ latitude, longitude, onMapClick }: WeatherM
         mapStyle="mapbox://styles/mapbox/light-v11"
         mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
         onClick={handleClick}
-        className="rounded-lg"
       >
         <Marker
           latitude={latitude}

@@ -56,6 +56,8 @@ export interface Location {
   lat: number;
   lon: number;
   name: string;
+  country?: string;
+  countryCode?: string;
 }
 
 export interface RecentSearch {
@@ -69,4 +71,6 @@ export interface FavoriteLocation {
   name: string;
   lat: number;
   lon: number;
+  country?: string;
+  countryCode?: string;
 }

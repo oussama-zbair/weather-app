@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Search, MapPin, Cloud, ThermometerSun, Settings2 } from 'lucide-react';
+import { Search, MapPin, Cloud, ThermometerSun } from 'lucide-react';
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
@@ -21,6 +21,7 @@ const MAX_RECENT_SEARCHES = 5;
 
 export default function Home() {
   const [search, setSearch] = useState('');
+  const [suggestions, setSuggestions] = useState<Array<{ name: string; country: string }>>([]);
   const [location, setLocation] = useState<Location | null>(null);
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState(false);
@@ -28,6 +29,30 @@ export default function Home() {
   const [tempUnit, setTempUnit] = useState<'C' | 'F'>('C');
   const [recentSearches, setRecentSearches] = useState<RecentSearch[]>([]);
   const [favorites, setFavorites] = useState<FavoriteLocation[]>([]);
+
+  function getCountryFlagEmoji(code: string = ''): string {
+    return code
+      .toUpperCase()
+      .replace(/./g, (char) => String.fromCodePoint(char.charCodeAt(0) + 127397));
+  }
+
+  const fetchSuggestions = async (query: string) => {
+    if (query.length < 2) return setSuggestions([]);
+    try {
+      const res = await fetch(
+        `https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY}`
+      );
+      const data = await res.json();
+      setSuggestions(
+        data.map((place: any) => ({
+          name: place.name,
+          country: place.country,
+        }))
+      );
+    } catch (err) {
+      console.error('Suggestion fetch failed:', err);
+    }
+  };
 
   const fetchWeather = async (lat: number, lon: number) => {
     setError(null);
@@ -102,29 +127,28 @@ export default function Home() {
       const res = await fetch(
         `https://api.openweathermap.org/geo/1.0/direct?q=${search}&limit=1&appid=${process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY}`
       );
-      
+
       if (!res.ok) {
         throw new Error('Failed to find location');
       }
 
       const data = await res.json();
-      
+
       if (!data || data.length === 0) {
         throw new Error('Location not found');
       }
 
-      const { lat, lon, name } = data[0];
-      setLocation({ lat, lon, name });
+      const { lat, lon, name, country } = data[0];
+      setLocation({ lat, lon, name, country, countryCode: country });
       await fetchWeather(lat, lon);
-      
-      // Add to recent searches
+
       const newSearch: RecentSearch = {
         name,
         lat,
         lon,
         timestamp: Date.now(),
       };
-      
+
       setRecentSearches(prev => {
         const filtered = prev.filter(s => s.name !== name);
         return [newSearch, ...filtered].slice(0, MAX_RECENT_SEARCHES);
@@ -144,19 +168,19 @@ export default function Home() {
       const res = await fetch(
         `https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY}`
       );
-      
+
       if (!res.ok) {
         throw new Error('Failed to get location information');
       }
 
       const data = await res.json();
-      
+
       if (!data || data.length === 0) {
         throw new Error('Location information not available');
       }
 
-      const { name } = data[0];
-      setLocation({ lat, lon, name });
+      const { name, country } = data[0];
+      setLocation({ lat, lon, name, country, countryCode: country });
       await fetchWeather(lat, lon);
     } catch (err) {
       console.error('Error getting location from coordinates:', err);
@@ -167,10 +191,16 @@ export default function Home() {
   };
 
   const handleToggleFavorite = (location: FavoriteLocation) => {
-    setFavorites(prev => {
-      const exists = prev.some(fav => fav.name === location.name);
+    setFavorites((prev) => {
+      const exists = prev.some(
+        (fav) =>
+          fav.name === location.name && fav.countryCode === location.countryCode
+      );
       if (exists) {
-        return prev.filter(fav => fav.name !== location.name);
+        return prev.filter(
+          (fav) =>
+            !(fav.name === location.name && fav.countryCode === location.countryCode)
+        );
       }
       return [...prev, location];
     });
@@ -182,7 +212,6 @@ export default function Home() {
       return;
     }
 
-    // Load saved preferences
     const savedUnit = localStorage.getItem('tempUnit') as 'C' | 'F';
     if (savedUnit) setTempUnit(savedUnit);
 
@@ -205,7 +234,6 @@ export default function Home() {
     );
   }, []);
 
-  // Save preferences when they change
   useEffect(() => {
     localStorage.setItem('tempUnit', tempUnit);
     localStorage.setItem('favorites', JSON.stringify(favorites));
@@ -215,34 +243,42 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex flex-col gap-4 mb-8"
-        >
+        <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col gap-4 mb-8">
           <div className="flex flex-col md:flex-row items-center gap-4">
-            <div className="flex-1 w-full">
-              <div className="flex gap-2">
-                <Input
-                  placeholder="Search for a city..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-                  className="bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm"
-                />
-                <Button onClick={handleSearch} disabled={loading}>
-                  <Search className="w-4 h-4 mr-2" />
-                  <span className="hidden sm:inline">{loading ? 'Searching...' : 'Search'}</span>
-                </Button>
-              </div>
+            <div className="flex-1 w-full relative">
+              <Input
+                placeholder="Search for a city..."
+                value={search}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setSearch(value);
+                  fetchSuggestions(value);
+                }}
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+                className="bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm"
+              />
+              {suggestions.length > 0 && (
+                <div className="absolute z-50 top-full mt-1 left-0 w-full bg-white dark:bg-gray-800 rounded-md shadow-lg max-h-48 overflow-y-auto">
+                  {suggestions.map((s, i) => (
+                    <div
+                      key={`${s.name}-${i}`}
+                      className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
+                      onClick={() => {
+                        setSearch(`${s.name}`);
+                        setSuggestions([]);
+                        handleSearch();
+                      }}
+                    >
+                      {s.name} {getCountryFlagEmoji(s.country)} ({s.country})
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
                 <span className="text-sm">°C</span>
-                <Switch
-                  checked={tempUnit === 'F'}
-                  onCheckedChange={(checked) => setTempUnit(checked ? 'F' : 'C')}
-                />
+                <Switch checked={tempUnit === 'F'} onCheckedChange={(checked) => setTempUnit(checked ? 'F' : 'C')} />
                 <span className="text-sm">°F</span>
               </div>
               <ThemeToggle />
@@ -250,11 +286,7 @@ export default function Home() {
           </div>
 
           {error && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="p-4 bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-200 rounded-lg"
-            >
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="p-4 bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-200 rounded-lg">
               {error}
             </motion.div>
           )}
@@ -268,11 +300,7 @@ export default function Home() {
         />
 
         {location && weather && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="space-y-8"
-          >
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8">
             <motion.h1 className="text-4xl font-bold flex items-center gap-2">
               <MapPin className="w-8 h-8 text-blue-500" />
               Weather in {location.name}
@@ -281,11 +309,14 @@ export default function Home() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               <div className="space-y-8">
                 <WeatherCard
-                  temperature={tempUnit === 'C' ? weather.current.temp : (weather.current.temp * 9/5) + 32}
+                  temperature={tempUnit === 'C' ? weather.current.temp : (weather.current.temp * 9 / 5) + 32}
                   humidity={weather.current.humidity}
                   windSpeed={weather.current.wind_speed}
                   description={weather.current.weather[0].description}
                   icon={weather.current.weather[0].icon}
+                  city={location.name}
+                  country={location.country || ''}
+                  countryCode={location.countryCode || ''}
                 />
 
                 {weather.air_quality && (
@@ -303,8 +334,13 @@ export default function Home() {
               <WeatherMap
                 latitude={location.lat}
                 longitude={location.lon}
+                city={location.name}
+                countryCode={location.countryCode}
+                temperature={weather.current.temp}
+                weatherIcon={weather.current.weather[0].icon}
                 onMapClick={handleMapClick}
-              />
+            />
+
             </div>
 
             {weather.hourly && (
@@ -324,8 +360,8 @@ export default function Home() {
                   <ForecastCard
                     key={day.dt}
                     date={day.dt}
-                    minTemp={tempUnit === 'C' ? day.temp.min : (day.temp.min * 9/5) + 32}
-                    maxTemp={tempUnit === 'C' ? day.temp.max : (day.temp.max * 9/5) + 32}
+                    minTemp={tempUnit === 'C' ? day.temp.min : (day.temp.min * 9 / 5) + 32}
+                    maxTemp={tempUnit === 'C' ? day.temp.max : (day.temp.max * 9 / 5) + 32}
                     icon={day.weather[0].icon}
                     description={day.weather[0].description}
                     index={index}
